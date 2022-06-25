@@ -17,10 +17,8 @@
 		232EDA5E21F1B33F0085D362 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 232EDA5D21F1B33F0085D362 /* Assets.xcassets */; };
 		232EDA6121F1B33F0085D362 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 232EDA5F21F1B33F0085D362 /* Main.storyboard */; };
 		232EDA6421F1B33F0085D362 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 232EDA6321F1B33F0085D362 /* main.m */; };
-		23310EA22314F31400226CA5 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 23310EA12314F31400226CA5 /* Icon.icns */; };
 		233C4A6E231F923D00DD7052 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 233C4A6D231F923D00DD7052 /* AppKit.framework */; };
 		233C4A70231F937900DD7052 /* ConvertTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 233C4A6F231F937900DD7052 /* ConvertTool.cpp */; };
-		233D800322F7D1F000E02DC6 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 233D800222F7D1F000E02DC6 /* main.mm */; };
 		2345899A22F720D7003E0923 /* MacroViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2345899922F720D7003E0923 /* MacroViewController.mm */; };
 		234F70AC21FB50BD00D2F2CA /* StatusHighlightedEng.png in Resources */ = {isa = PBXBuildFile; fileRef = 234F70A821FB50BC00D2F2CA /* StatusHighlightedEng.png */; };
 		234F70AD21FB50BD00D2F2CA /* StatusEng@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 234F70A921FB50BC00D2F2CA /* StatusEng@2x.png */; };
@@ -44,36 +42,21 @@
 		238AF96922042E2500AEFA17 /* ThumbUp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 238AF96822042E2500AEFA17 /* ThumbUp@2x.png */; };
 		238AF97122042EC600AEFA17 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 238AF97022042EC600AEFA17 /* Icon.icns */; };
 		23963B5022040C720097189E /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23963B4F22040C720097189E /* ServiceManagement.framework */; };
-		2397059523143266002DDEA7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397059423143266002DDEA7 /* AppDelegate.m */; };
-		2397059723143267002DDEA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2397059623143267002DDEA7 /* Assets.xcassets */; };
-		2397059A23143267002DDEA7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2397059823143267002DDEA7 /* MainMenu.xib */; };
-		2397059D23143267002DDEA7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397059C23143267002DDEA7 /* main.m */; };
 		23CA6D1722F0439100804D6E /* MyTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 23CA6D1622F0439100804D6E /* MyTextField.m */; };
 		23E2E49D2314FD3A006CCC3E /* Macro.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E2E4952314FD3A006CCC3E /* Macro.cpp */; };
 		23E2E49E2314FD3A006CCC3E /* SmartSwitchKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E2E4982314FD3A006CCC3E /* SmartSwitchKey.cpp */; };
 		23E2E49F2314FD3A006CCC3E /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E2E49A2314FD3A006CCC3E /* Engine.cpp */; };
 		23E2E4A02314FD3A006CCC3E /* Vietnamese.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E2E49B2314FD3A006CCC3E /* Vietnamese.cpp */; };
-		23E2E4AD231502EA006CCC3E /* OpenKeyUpdate.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2397059123143266002DDEA7 /* OpenKeyUpdate.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		23F512852336386200397988 /* MJAccessibilityUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 23F512832336386200397988 /* MJAccessibilityUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		233D7FFE22F7D1F000E02DC6 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		237559C4220417DD00FB8CB9 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = Contents/Library/LoginItems;
 			dstSubfolderSpec = 1;
 			files = (
-				23E2E4AD231502EA006CCC3E /* OpenKeyUpdate.app in CopyFiles */,
 				2388EFB422041C4200DACE7C /* OpenKeyHelper.app in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,12 +80,9 @@
 		232EDA6221F1B33F0085D362 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		232EDA6321F1B33F0085D362 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		232EDA6521F1B33F0085D362 /* ModernKey.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ModernKey.entitlements; sourceTree = "<group>"; };
-		23310EA12314F31400226CA5 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		233C4A6D231F923D00DD7052 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		233C4A6F231F937900DD7052 /* ConvertTool.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ConvertTool.cpp; sourceTree = "<group>"; };
 		233C4A71231F938800DD7052 /* ConvertTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConvertTool.h; sourceTree = "<group>"; };
-		233D800022F7D1F000E02DC6 /* OpenKeyTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenKeyTest; sourceTree = BUILT_PRODUCTS_DIR; };
-		233D800222F7D1F000E02DC6 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		2344220522F42F70009E47D4 /* OpenKey.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OpenKey.entitlements; sourceTree = "<group>"; };
 		2345899822F720D7003E0923 /* MacroViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacroViewController.h; sourceTree = "<group>"; };
 		2345899922F720D7003E0923 /* MacroViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MacroViewController.mm; sourceTree = "<group>"; };
@@ -137,14 +117,6 @@
 		238AF96822042E2500AEFA17 /* ThumbUp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ThumbUp@2x.png"; sourceTree = "<group>"; };
 		238AF97022042EC600AEFA17 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		23963B4F22040C720097189E /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
-		2397059123143266002DDEA7 /* OpenKeyUpdate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenKeyUpdate.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2397059323143266002DDEA7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		2397059423143266002DDEA7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2397059623143267002DDEA7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2397059923143267002DDEA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		2397059B23143267002DDEA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2397059C23143267002DDEA7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2397059E23143267002DDEA7 /* OpenKeyUpdate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OpenKeyUpdate.entitlements; sourceTree = "<group>"; };
 		23A984BE220ED07E000914A2 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		23CA6D1522F0439100804D6E /* MyTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTextField.h; sourceTree = "<group>"; };
 		23CA6D1622F0439100804D6E /* MyTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyTextField.m; sourceTree = "<group>"; };
@@ -175,21 +147,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		233D7FFD22F7D1F000E02DC6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		237559AF2204156000FB8CB9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2397058E23143266002DDEA7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -225,8 +183,6 @@
 				23E2E4932314FD3A006CCC3E /* engine */,
 				2344220522F42F70009E47D4 /* OpenKey.entitlements */,
 				232EDA5621F1B33E0085D362 /* ModernKey */,
-				233D800122F7D1F000E02DC6 /* OpenKeyTest */,
-				2397059223143266002DDEA7 /* OpenKeyUpdate */,
 				232EDA5521F1B33E0085D362 /* Products */,
 				237559B32204156000FB8CB9 /* OpenKeyHelper */,
 				238519F121F1B8E200E79A41 /* Frameworks */,
@@ -238,8 +194,6 @@
 			children = (
 				232EDA5421F1B33E0085D362 /* OpenKey.app */,
 				237559B22204156000FB8CB9 /* OpenKeyHelper.app */,
-				233D800022F7D1F000E02DC6 /* OpenKeyTest */,
-				2397059123143266002DDEA7 /* OpenKeyUpdate.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -272,22 +226,6 @@
 				2371AAEE22FA85B200CA1B57 /* OpenKey.mm */,
 			);
 			path = ModernKey;
-			sourceTree = "<group>";
-		};
-		23310EA02314F31400226CA5 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				23310EA12314F31400226CA5 /* Icon.icns */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		233D800122F7D1F000E02DC6 /* OpenKeyTest */ = {
-			isa = PBXGroup;
-			children = (
-				233D800222F7D1F000E02DC6 /* main.mm */,
-			);
-			path = OpenKeyTest;
 			sourceTree = "<group>";
 		};
 		237559B32204156000FB8CB9 /* OpenKeyHelper */ = {
@@ -327,21 +265,6 @@
 				238519F221F1B8E200E79A41 /* Foundation.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		2397059223143266002DDEA7 /* OpenKeyUpdate */ = {
-			isa = PBXGroup;
-			children = (
-				23310EA02314F31400226CA5 /* Resources */,
-				2397059323143266002DDEA7 /* AppDelegate.h */,
-				2397059423143266002DDEA7 /* AppDelegate.m */,
-				2397059623143267002DDEA7 /* Assets.xcassets */,
-				2397059823143267002DDEA7 /* MainMenu.xib */,
-				2397059B23143267002DDEA7 /* Info.plist */,
-				2397059C23143267002DDEA7 /* main.m */,
-				2397059E23143267002DDEA7 /* OpenKeyUpdate.entitlements */,
-			);
-			path = OpenKeyUpdate;
 			sourceTree = "<group>";
 		};
 		23E2E4932314FD3A006CCC3E /* engine */ = {
@@ -385,23 +308,6 @@
 			productReference = 232EDA5421F1B33E0085D362 /* OpenKey.app */;
 			productType = "com.apple.product-type.application";
 		};
-		233D7FFF22F7D1F000E02DC6 /* OpenKeyTest */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 233D800622F7D1F000E02DC6 /* Build configuration list for PBXNativeTarget "OpenKeyTest" */;
-			buildPhases = (
-				233D7FFC22F7D1F000E02DC6 /* Sources */,
-				233D7FFD22F7D1F000E02DC6 /* Frameworks */,
-				233D7FFE22F7D1F000E02DC6 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = OpenKeyTest;
-			productName = OpenKeyTest;
-			productReference = 233D800022F7D1F000E02DC6 /* OpenKeyTest */;
-			productType = "com.apple.product-type.tool";
-		};
 		237559B12204156000FB8CB9 /* OpenKeyHelper */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 237559C02204156000FB8CB9 /* Build configuration list for PBXNativeTarget "OpenKeyHelper" */;
@@ -419,30 +325,13 @@
 			productReference = 237559B22204156000FB8CB9 /* OpenKeyHelper.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2397059023143266002DDEA7 /* OpenKeyUpdate */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 239705A123143267002DDEA7 /* Build configuration list for PBXNativeTarget "OpenKeyUpdate" */;
-			buildPhases = (
-				2397058D23143266002DDEA7 /* Sources */,
-				2397058E23143266002DDEA7 /* Frameworks */,
-				2397058F23143266002DDEA7 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = OpenKeyUpdate;
-			productName = OpenKeyUpdate;
-			productReference = 2397059123143266002DDEA7 /* OpenKeyUpdate.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		232EDA4C21F1B33E0085D362 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1340;
 				ORGANIZATIONNAME = "Tuyen Mai";
 				TargetAttributes = {
 					232EDA5321F1B33E0085D362 = {
@@ -453,19 +342,8 @@
 							};
 						};
 					};
-					233D7FFF22F7D1F000E02DC6 = {
-						CreatedOnToolsVersion = 10.2.1;
-					};
 					237559B12204156000FB8CB9 = {
 						CreatedOnToolsVersion = 10.1;
-						SystemCapabilities = {
-							com.apple.Sandbox = {
-								enabled = 0;
-							};
-						};
-					};
-					2397059023143266002DDEA7 = {
-						CreatedOnToolsVersion = 10.2.1;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 0;
@@ -489,8 +367,6 @@
 			targets = (
 				232EDA5321F1B33E0085D362 /* OpenKey */,
 				237559B12204156000FB8CB9 /* OpenKeyHelper */,
-				233D7FFF22F7D1F000E02DC6 /* OpenKeyTest */,
-				2397059023143266002DDEA7 /* OpenKeyUpdate */,
 			);
 		};
 /* End PBXProject section */
@@ -527,16 +403,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2397058F23143266002DDEA7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				23310EA22314F31400226CA5 /* Icon.icns in Resources */,
-				2397059723143267002DDEA7 /* Assets.xcassets in Resources */,
-				2397059A23143267002DDEA7 /* MainMenu.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -562,29 +428,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		233D7FFC22F7D1F000E02DC6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				233D800322F7D1F000E02DC6 /* main.mm in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		237559AE2204156000FB8CB9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				237559BE2204156000FB8CB9 /* main.m in Sources */,
 				237559B62204156000FB8CB9 /* AppDelegate.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2397058D23143266002DDEA7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2397059D23143267002DDEA7 /* main.m in Sources */,
-				2397059523143266002DDEA7 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,14 +452,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				237559BA2204156000FB8CB9 /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		2397059823143267002DDEA7 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2397059923143267002DDEA7 /* Base */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -645,6 +486,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -705,6 +547,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -735,11 +578,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = NO;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 48;
-				DEVELOPMENT_TEAM = 7X875U5EVD;
+				CURRENT_PROJECT_VERSION = 49;
+				DEVELOPMENT_TEAM = 4J67LLP7BW;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = ModernKey/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -747,7 +590,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 2.0.4;
+				MARKETING_VERSION = 2.0.5;
 				OTHER_LDFLAGS = (
 					"-lc++\n-lc++",
 				);
@@ -764,8 +607,8 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 48;
-				DEVELOPMENT_TEAM = 7X875U5EVD;
+				CURRENT_PROJECT_VERSION = 49;
+				DEVELOPMENT_TEAM = 4J67LLP7BW;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = ModernKey/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -773,7 +616,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 2.0.4;
+				MARKETING_VERSION = 2.0.5;
 				OTHER_LDFLAGS = (
 					"-lc++\n-lc++",
 				);
@@ -783,30 +626,15 @@
 			};
 			name = Release;
 		};
-		233D800422F7D1F000E02DC6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		233D800522F7D1F000E02DC6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		237559C12204156000FB8CB9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7X875U5EVD;
+				DEVELOPMENT_TEAM = 4J67LLP7BW;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = OpenKeyHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -824,10 +652,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7X875U5EVD;
+				DEVELOPMENT_TEAM = 4J67LLP7BW;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = OpenKeyHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -835,46 +664,6 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuyenmai.OpenKeyHelper;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		2397059F23143267002DDEA7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7X875U5EVD;
-				INFOPLIST_FILE = OpenKeyUpdate/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tuyenmai.OpenKeyUpdate;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		239705A023143267002DDEA7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7X875U5EVD;
-				INFOPLIST_FILE = OpenKeyUpdate/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tuyenmai.OpenKeyUpdate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -902,29 +691,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		233D800622F7D1F000E02DC6 /* Build configuration list for PBXNativeTarget "OpenKeyTest" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				233D800422F7D1F000E02DC6 /* Debug */,
-				233D800522F7D1F000E02DC6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		237559C02204156000FB8CB9 /* Build configuration list for PBXNativeTarget "OpenKeyHelper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				237559C12204156000FB8CB9 /* Debug */,
 				237559C22204156000FB8CB9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		239705A123143267002DDEA7 /* Build configuration list for PBXNativeTarget "OpenKeyUpdate" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2397059F23143267002DDEA7 /* Debug */,
-				239705A023143267002DDEA7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
