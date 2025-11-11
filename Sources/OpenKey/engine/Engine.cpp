@@ -1102,8 +1102,8 @@ void handleMainKey(const Uint16& data, const bool& isCaps) {
     
     //if is mark key
     if (IS_MARK_KEY(data)) {
-        for (i = 0; i < _vowelForMark.size(); i++) {
-            vector<vector<Uint16>>& charset = _vowelForMark[i];
+        for (auto& vowelEntry : _vowelForMark) {
+            vector<vector<Uint16>>& charset = vowelEntry.second;
             isCorect = false;
             isChanged = false;
             k = _index;
@@ -1112,7 +1112,7 @@ void handleMainKey(const Uint16& data, const bool& isCaps) {
                     continue;
                 isCorect = true;
                 checkCorrectVowel(charset, l, k, data);
-                
+
                 if (isCorect) {
                     isChanged = true;
                     if (IS_KEY_S(data))
@@ -1133,11 +1133,11 @@ void handleMainKey(const Uint16& data, const bool& isCaps) {
                 break;
             }
         }
-        
+
         if (!isChanged) {
             insertKey(data, isCaps);
         }
-        
+
         return;
     }
     
