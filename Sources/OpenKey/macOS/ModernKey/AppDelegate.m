@@ -10,6 +10,8 @@
 #import <Carbon/Carbon.h>
 #import <Cocoa/Cocoa.h>
 #import <ServiceManagement/ServiceManagement.h>
+#include <libproc.h>
+#include <sys/proc_info.h>
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "OpenKeyManager.h"
@@ -119,8 +121,26 @@ extern bool convertToolDontAlertWhenCompleted;
                                               forKey: @"NSInitialToolTipDelay"];
     
     //check whether this app has been launched before that or not
-    NSArray* runningApp = [[NSWorkspace sharedWorkspace] runningApplications];
-    if ([runningApp containsObject:OPENKEY_BUNDLE]) { //if already running -> exit
+    //Only check instances owned by current user (for multi-user/Fast User Switching support)
+    uid_t currentUID = getuid();
+    NSArray<NSRunningApplication *>* runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
+    pid_t myPID = [[NSProcessInfo processInfo] processIdentifier];
+    BOOL alreadyRunning = NO;
+
+    for (NSRunningApplication *app in runningApps) {
+        if ([app.bundleIdentifier isEqualToString:OPENKEY_BUNDLE] &&
+            app.processIdentifier != myPID) {
+            pid_t pid = app.processIdentifier;
+            struct proc_bsdinfo proc;
+            int size = proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &proc, sizeof(proc));
+            if (size == sizeof(proc) && proc.pbi_uid == currentUID) {
+                alreadyRunning = YES;
+                break;
+            }
+        }
+    }
+
+    if (alreadyRunning) {
         [NSApp terminate:nil];
         return;
     }
