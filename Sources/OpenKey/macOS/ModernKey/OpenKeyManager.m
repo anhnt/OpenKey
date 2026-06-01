@@ -74,17 +74,12 @@ static CFRunLoopSourceRef runLoopSource;
     // Enable the event tap.
     CGEventTapEnable(eventTap, true);
     
-    // Set it all running.
-    CFRunLoopRun();
-    
     return YES;
 }
 
 +(BOOL)stopEventTap {
     if (_isInited) { //release all object
-        CFRunLoopStop(CFRunLoopGetCurrent());
-        
-        CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
+        CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopCommonModes);
         CFRelease(runLoopSource);
         runLoopSource = nil;
         
