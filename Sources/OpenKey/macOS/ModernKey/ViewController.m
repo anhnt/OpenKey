@@ -48,6 +48,7 @@ extern int vPerformLayoutCompat;
     __weak IBOutlet NSButton *CustomBeepSound;
     NSArray* tabviews, *tabbuttons;
     NSRect tabViewRect;
+    NSView* tabButtonBackground;
 }
 
 - (void)viewDidLoad {
@@ -66,6 +67,16 @@ extern int vPerformLayoutCompat;
     //set correct tabgroup
     tabviews = [NSArray arrayWithObjects:self.tabviewPrimary, self.tabviewMacro, self.tabviewSystem, self.tabviewInfo, nil];
     tabbuttons = [NSArray arrayWithObjects:self.tabbuttonPrimary, self.tabbuttonMacro, self.tabbuttonSystem, self.tabbuttonInfo, nil];
+    NSButton* firstTabButton = [tabbuttons objectAtIndex:0];
+    NSRect tabButtonBackgroundRect = firstTabButton.frame;
+    for (NSButton* button in tabbuttons) {
+        tabButtonBackgroundRect = NSUnionRect(tabButtonBackgroundRect, button.frame);
+    }
+    tabButtonBackgroundRect = NSInsetRect(tabButtonBackgroundRect, -2, -2);
+    tabButtonBackground = [[NSView alloc] initWithFrame:tabButtonBackgroundRect];
+    [tabButtonBackground setWantsLayer:YES];
+    tabButtonBackground.layer.backgroundColor = [[NSColor windowBackgroundColor] CGColor];
+    [self.view addSubview:tabButtonBackground];
     tabViewRect = self.tabviewPrimary.frame;
     for (NSBox* b in tabviews) {
         b.frame = tabViewRect;
@@ -137,6 +148,11 @@ extern int vPerformLayoutCompat;
     
     NSButton* button = [tabbuttons objectAtIndex:index];
     [button setState:NSControlStateValueOn];
+
+    [self.view addSubview:tabButtonBackground positioned:NSWindowAbove relativeTo:b];
+    for (NSButton* tabButton in tabbuttons) {
+        [self.view addSubview:tabButton positioned:NSWindowAbove relativeTo:nil];
+    }
 }
 
 - (IBAction)onTabButton:(NSButton *)sender {

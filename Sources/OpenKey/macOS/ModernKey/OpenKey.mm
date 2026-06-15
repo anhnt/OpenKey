@@ -57,6 +57,7 @@ extern "C" {
     NSArray* _unicodeCompoundApp = @[@"com.apple.",
                                      @"com.google.Chrome", @"com.brave.Browser",
                                      @"com.microsoft.edgemac.Dev", @"com.microsoft.edgemac.Beta", @"com.microsoft.Edge.Dev", @"com.microsoft.Edge"];
+    NSArray* _recommendWorkaroundDisabledApp = @[@"com.apple.Spotlight"];
     
     CGEventSourceRef myEventSource = NULL;
     vKeyHookState* pData;
@@ -172,6 +173,28 @@ extern "C" {
                 return true;
         }
         return false;
+    }
+
+    BOOL isSpotlightVisible() {
+        NSArray *windows = CFBridgingRelease(CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenOnly | kCGWindowListExcludeDesktopElements,
+                                                                        kCGNullWindowID));
+        for (NSDictionary *window in windows) {
+            if ([[window objectForKey:(__bridge NSString *)kCGWindowOwnerName] isEqualToString:@"Spotlight"]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    BOOL shouldUseRecommendWorkaround(NSString* topApp) {
+        if (!vFixRecommendBrowser) return false;
+        if (isSpotlightVisible()) return false;
+        if (topApp == nil) return true;
+        return ![_recommendWorkaroundDisabledApp containsObject:topApp];
+    }
+
+    BOOL shouldUseSelectionReplacement(NSString* topApp) {
+        return isSpotlightVisible() || [_recommendWorkaroundDisabledApp containsObject:topApp];
     }
     
     void saveSmartSwitchKeyData() {
@@ -520,7 +543,7 @@ extern "C" {
     
     void handleMacro() {
         //fix autocomplete
-        if (vFixRecommendBrowser) {
+        if (shouldUseRecommendWorkaround(FRONT_APP)) {
             SendEmptyCharacter();
             pData->backspaceCount++;
         }
@@ -716,7 +739,7 @@ extern "C" {
             } else if (pData->code == vWillProcess || pData->code == vRestore || pData->code == vRestoreAndStartNewSession) { //handle result signal
                 
                 //fix autocomplete
-                if (vFixRecommendBrowser && pData->extCode != 4) {
+                if (shouldUseRecommendWorkaround(FRONT_APP) && pData->extCode != 4) {
                     if (vFixChromiumBrowser && [_unicodeCompoundApp containsObject:FRONT_APP]) {
                         if (pData->backspaceCount > 0) {
                             SendShiftAndLeftArrow();
@@ -728,6 +751,13 @@ extern "C" {
                         pData->backspaceCount++;
                     
                     }
+                }
+
+                if (shouldUseSelectionReplacement(FRONT_APP) && pData->backspaceCount > 0) {
+                    for (_i = 0; _i < pData->backspaceCount; _i++) {
+                        SendShiftAndLeftArrow();
+                    }
+                    pData->backspaceCount = 0;
                 }
                 
                 //send backspace
