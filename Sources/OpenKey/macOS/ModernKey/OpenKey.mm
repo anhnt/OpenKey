@@ -15,6 +15,7 @@
 // Cached per-callback to avoid repeated system calls
 static NSString* _cachedFrontApp = nil;
 static BOOL _cachedIsSpotlight = NO;
+static BOOL _spotlightChecked = NO;
 
 #define OTHER_CONTROL_KEY (_flag & kCGEventFlagMaskCommand) || (_flag & kCGEventFlagMaskControl) || \
                             (_flag & kCGEventFlagMaskAlternate) || (_flag & kCGEventFlagMaskSecondaryFn) || \
@@ -205,12 +206,20 @@ extern "C" {
 
     BOOL shouldUseRecommendWorkaround() {
         if (!vFixRecommendBrowser) return false;
+        if (!_spotlightChecked) {
+            _cachedIsSpotlight = isSpotlightVisible();
+            _spotlightChecked = YES;
+        }
         if (_cachedIsSpotlight) return false;
         if (_cachedFrontApp == nil) return true;
         return ![_recommendWorkaroundDisabledApp containsObject:_cachedFrontApp];
     }
 
     BOOL shouldUseSelectionReplacement() {
+        if (!_spotlightChecked) {
+            _cachedIsSpotlight = isSpotlightVisible();
+            _spotlightChecked = YES;
+        }
         return _cachedIsSpotlight || [_recommendWorkaroundDisabledApp containsObject:_cachedFrontApp];
     }
     
@@ -668,13 +677,13 @@ extern "C" {
         
         _proxy = proxy;
         
-        // Cache frontmost app and spotlight visibility once per callback
+        // Cache frontmost app once per callback
         _cachedFrontApp = [[NSWorkspace sharedWorkspace] frontmostApplication].bundleIdentifier;
         if (_cachedFrontApp == nil) {
             _cachedFrontApp = [[NSWorkspace sharedWorkspace] frontmostApplication].localizedName;
             if (_cachedFrontApp == nil) _cachedFrontApp = @"UnknownApp";
         }
-        _cachedIsSpotlight = isSpotlightVisible();
+        _spotlightChecked = NO; // will be lazily computed only if needed
         
         //If is in english mode
         if (vLanguage == 0) {
