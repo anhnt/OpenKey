@@ -92,23 +92,87 @@ extern bool convertToolDontAlertWhenCompleted;
 }
 
 -(void)askPermission {
+    // Show the system permission prompt while the app is alive
+    AXIsProcessTrustedWithOptions((__bridge CFDictionaryRef)@{(__bridge id)kAXTrustedCheckOptionPrompt: @YES});
+    
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText: [NSString stringWithFormat:@"OpenKey cần bạn cấp quyền để có thể hoạt động!"]];
-    [alert setInformativeText:@"Vui lòng chạy lại ứng dụng sau khi cấp quyền."];
-
-    [alert addButtonWithTitle:@"Không"];
-    [alert addButtonWithTitle:@"Cấp quyền"];
-
+    [alert setInformativeText:@"Sau khi cấp quyền trong Cài đặt Hệ thống, ứng dụng sẽ tự động tiếp tục."];
+    
+    [alert addButtonWithTitle:@"Mở Cài đặt Hệ thống"];
+    [alert addButtonWithTitle:@"Thoát"];
+    
     [alert.window makeKeyAndOrderFront:nil];
     [alert.window setLevel:NSStatusWindowLevel];
-
+    
     NSModalResponse res = [alert runModal];
-
-    if (res == 1001) {
+    
+    if (res == 1000) {
+        // Open Accessibility pane directly and poll for permission
         MJAccessibilityOpenPanel();
+        
+        // Poll every 2 seconds for up to 60 seconds for the user to grant permission
+        __block int attempts = 0;
+        [NSTimer scheduledTimerWithTimeInterval:2.0 repeats:YES block:^(NSTimer * _Nonnull t) {
+            attempts++;
+            if (MJAccessibilityIsEnabled()) {
+                [t invalidate];
+                [self continueInitialization];
+            } else if (attempts >= 30) {
+                [t invalidate];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSAlert *timeoutAlert = [[NSAlert alloc] init];
+                    [timeoutAlert setMessageText:@"Chưa phát hiện quyền Accessibility!"];
+                    [timeoutAlert setInformativeText:@"Vui lòng vào Cài đặt Hệ thống > Quyền riêng tư & Bảo mật > Accessibility và thêm OpenKey thủ công, sau đó khởi động lại ứng dụng."];
+                    [timeoutAlert addButtonWithTitle:@"OK"];
+                    [timeoutAlert.window setLevel:NSStatusWindowLevel];
+                    [timeoutAlert runModal];
+                    [NSApp terminate:0];
+                });
+            }
+        }];
+    } else {
+        [NSApp terminate:0];
     }
+}
 
-    [NSApp terminate:0];
+-(void)continueInitialization {
+    vShowIconOnDock = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"vShowIconOnDock"];
+    if (vShowIconOnDock)
+        [NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
+    
+    if (vSwitchKeyStatus & 0x8000)
+        NSBeep();
+    
+    [self createStatusBarMenu];
+    
+    //init
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![OpenKeyManager initEventTap]) {
+            [self onControlPanelSelected];
+        } else {
+            NSInteger showui = [[NSUserDefaults standardUserDefaults] integerForKey:@"ShowUIOnStartup"];
+            if (showui == 1) {
+                [self onControlPanelSelected];
+            }
+        }
+        [self setQuickConvertString];
+    });
+    
+    //load default config if is first launch
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"NonFirstTime"] == 0) {
+        [self loadDefaultConfig];
+    }
+    [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"NonFirstTime"];
+    
+    //check update if enable
+    NSInteger dontCheckUpdate = [[NSUserDefaults standardUserDefaults] integerForKey:@"DontCheckUpdate"];
+    if (!dontCheckUpdate)
+        [OpenKeyManager checkNewVersion:nil callbackFunc:nil];
+    
+    //correct run on startup
+    NSInteger val = [[NSUserDefaults standardUserDefaults] integerForKey:@"RunOnStartup"];
+    [appDelegate setRunOnStartup:val];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -151,42 +215,8 @@ extern bool convertToolDontAlertWhenCompleted;
         return;
     }
     
-    vShowIconOnDock = (int)[[NSUserDefaults standardUserDefaults] integerForKey:@"vShowIconOnDock"];
-    if (vShowIconOnDock)
-        [NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
-    
-    if (vSwitchKeyStatus & 0x8000)
-        NSBeep();
-
-    [self createStatusBarMenu];
-    
-    //init
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (![OpenKeyManager initEventTap]) {
-            [self onControlPanelSelected];
-        } else {
-            NSInteger showui = [[NSUserDefaults standardUserDefaults] integerForKey:@"ShowUIOnStartup"];
-            if (showui == 1) {
-                [self onControlPanelSelected];
-            }
-        }
-        [self setQuickConvertString];
-    });
-    
-    //load default config if is first launch
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"NonFirstTime"] == 0) {
-        [self loadDefaultConfig];
-    }
-    [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"NonFirstTime"];
-    
-    //check update if enable
-    NSInteger dontCheckUpdate = [[NSUserDefaults standardUserDefaults] integerForKey:@"DontCheckUpdate"];
-    if (!dontCheckUpdate)
-        [OpenKeyManager checkNewVersion:nil callbackFunc:nil];
-    
-    //correct run on startup
-    NSInteger val = [[NSUserDefaults standardUserDefaults] integerForKey:@"RunOnStartup"];
-    [appDelegate setRunOnStartup:val];
+    vShowIconOnDock = 0; // prevent duplicate initialization
+    [self continueInitialization];
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
