@@ -557,16 +557,18 @@ map<Uint32, Uint32> _characterMap = {
 };
 
 map<Uint32, Uint32> _keyCodeToChar;
+static bool _keyCodeToCharInited = false;
 
 void initKeyCodeToChar() {
     _keyCodeToChar.clear();
     for (std::map<Uint32, Uint32>::iterator it = _characterMap.begin(); it != _characterMap.end(); ++it) {
         _keyCodeToChar[it->second] = it->first;
     }
+    _keyCodeToCharInited = true;
 }
 
 Uint16 keyCodeToCharacter(const Uint32& keyCode) {
-    if (_keyCodeToChar.size() == 0) { //init data if it is empty
+    if (!_keyCodeToCharInited) {
         initKeyCodeToChar();
     }
     if (_keyCodeToChar.find(keyCode) != _keyCodeToChar.end()) {
