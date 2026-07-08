@@ -12,11 +12,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 
-// Cached per-callback to avoid repeated system calls
-static NSString* _cachedFrontApp = nil;
-static BOOL _cachedIsSpotlight = NO;
-static BOOL _spotlightChecked = NO;
-
+#define FRONT_APP [[NSWorkspace sharedWorkspace] frontmostApplication].bundleIdentifier
 #define OTHER_CONTROL_KEY (_flag & kCGEventFlagMaskCommand) || (_flag & kCGEventFlagMaskControl) || \
                             (_flag & kCGEventFlagMaskAlternate) || (_flag & kCGEventFlagMaskSecondaryFn) || \
                             (_flag & kCGEventFlagMaskNumericPad) || (_flag & kCGEventFlagMaskHelp)
@@ -67,10 +63,6 @@ extern "C" {
     vKeyHookState* pData;
     CGEventRef eventBackSpaceDown;
     CGEventRef eventBackSpaceUp;
-    CGEventRef eventShiftLeftDown;
-    CGEventRef eventShiftLeftUp;
-    CGEventRef eventZeroKeyDown;
-    CGEventRef eventZeroKeyUp;
     UniChar _newChar, _newCharHi;
     CGEventRef _newEventDown, _newEventUp;
     CGKeyCode _keycode;
@@ -127,16 +119,6 @@ extern "C" {
 
         eventBackSpaceDown = CGEventCreateKeyboardEvent (myEventSource, 51, true);
         eventBackSpaceUp = CGEventCreateKeyboardEvent (myEventSource, 51, false);
-        
-        // Pre-create reusable events for performance
-        eventShiftLeftDown = CGEventCreateKeyboardEvent(myEventSource, KEY_LEFT, true);
-        eventShiftLeftUp = CGEventCreateKeyboardEvent(myEventSource, KEY_LEFT, false);
-        _privateFlag = CGEventGetFlags(eventShiftLeftDown) | kCGEventFlagMaskShift;
-        CGEventSetFlags(eventShiftLeftDown, _privateFlag);
-        CGEventSetFlags(eventShiftLeftUp, _privateFlag);
-        
-        eventZeroKeyDown = CGEventCreateKeyboardEvent(myEventSource, 0, true);
-        eventZeroKeyUp = CGEventCreateKeyboardEvent(myEventSource, 0, false);
         
         //init and load macro data
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -204,23 +186,15 @@ extern "C" {
         return false;
     }
 
-    BOOL shouldUseRecommendWorkaround() {
+    BOOL shouldUseRecommendWorkaround(NSString* topApp) {
         if (!vFixRecommendBrowser) return false;
-        if (!_spotlightChecked) {
-            _cachedIsSpotlight = isSpotlightVisible();
-            _spotlightChecked = YES;
-        }
-        if (_cachedIsSpotlight) return false;
-        if (_cachedFrontApp == nil) return true;
-        return ![_recommendWorkaroundDisabledApp containsObject:_cachedFrontApp];
+        if (isSpotlightVisible()) return false;
+        if (topApp == nil) return true;
+        return ![_recommendWorkaroundDisabledApp containsObject:topApp];
     }
 
-    BOOL shouldUseSelectionReplacement() {
-        if (!_spotlightChecked) {
-            _cachedIsSpotlight = isSpotlightVisible();
-            _spotlightChecked = YES;
-        }
-        return _cachedIsSpotlight || [_recommendWorkaroundDisabledApp containsObject:_cachedFrontApp];
+    BOOL shouldUseSelectionReplacement(NSString* topApp) {
+        return isSpotlightVisible() || [_recommendWorkaroundDisabledApp containsObject:topApp];
     }
     
     void saveSmartSwitchKeyData() {
@@ -277,10 +251,14 @@ extern "C" {
     }
     
     void SendPureCharacter(const Uint16& ch) {
-        CGEventKeyboardSetUnicodeString(eventZeroKeyDown, 1, &ch);
-        CGEventKeyboardSetUnicodeString(eventZeroKeyUp, 1, &ch);
-        CGEventTapPostEvent(_proxy, eventZeroKeyDown);
-        CGEventTapPostEvent(_proxy, eventZeroKeyUp);
+        _newEventDown = CGEventCreateKeyboardEvent(myEventSource, 0, true);
+        _newEventUp = CGEventCreateKeyboardEvent(myEventSource, 0, false);
+        CGEventKeyboardSetUnicodeString(_newEventDown, 1, &ch);
+        CGEventKeyboardSetUnicodeString(_newEventUp, 1, &ch);
+        CGEventTapPostEvent(_proxy, _newEventDown);
+        CGEventTapPostEvent(_proxy, _newEventUp);
+        CFRelease(_newEventDown);
+        CFRelease(_newEventUp);
         if (IS_DOUBLE_CODE(vCodeTable)) {
             InsertKeyLength(1);
         }
@@ -363,14 +341,18 @@ extern "C" {
             InsertKeyLength(1);
         
         _newChar = 0x202F; //empty char
-        if ([_niceSpaceApp containsObject:_cachedFrontApp]) {
+        if ([_niceSpaceApp containsObject:FRONT_APP]) {
             _newChar = 0x200C; //Unicode character with empty space
         }
         
-        CGEventKeyboardSetUnicodeString(eventZeroKeyDown, 1, &_newChar);
-        CGEventKeyboardSetUnicodeString(eventZeroKeyUp, 1, &_newChar);
-        CGEventTapPostEvent(_proxy, eventZeroKeyDown);
-        CGEventTapPostEvent(_proxy, eventZeroKeyUp);
+        _newEventDown = CGEventCreateKeyboardEvent(myEventSource, 0, true);
+        _newEventUp = CGEventCreateKeyboardEvent(myEventSource, 0, false);
+        CGEventKeyboardSetUnicodeString(_newEventDown, 1, &_newChar);
+        CGEventKeyboardSetUnicodeString(_newEventUp, 1, &_newChar);
+        CGEventTapPostEvent(_proxy, _newEventDown);
+        CGEventTapPostEvent(_proxy, _newEventUp);
+        CFRelease(_newEventDown);
+        CFRelease(_newEventUp);
     }
     
     void SendVirtualKey(const Byte& vKey) {
@@ -390,7 +372,7 @@ extern "C" {
         
         if (IS_DOUBLE_CODE(vCodeTable)) { //VNI or Unicode Compound
             if (_syncKey.back() > 1) {
-                if (!(vCodeTable == 3 && containUnicodeCompoundApp(_cachedFrontApp))) {
+                if (!(vCodeTable == 3 && containUnicodeCompoundApp(FRONT_APP))) {
                     CGEventTapPostEvent(_proxy, eventBackSpaceDown);
                     CGEventTapPostEvent(_proxy, eventBackSpaceUp);
                 }
@@ -400,18 +382,27 @@ extern "C" {
     }
     
     void SendShiftAndLeftArrow() {
-        CGEventTapPostEvent(_proxy, eventShiftLeftDown);
-        CGEventTapPostEvent(_proxy, eventShiftLeftUp);
+        CGEventRef eventVkeyDown = CGEventCreateKeyboardEvent (myEventSource, KEY_LEFT, true);
+        CGEventRef eventVkeyUp = CGEventCreateKeyboardEvent (myEventSource, KEY_LEFT, false);
+        _privateFlag = CGEventGetFlags(eventVkeyDown);
+        _privateFlag |= kCGEventFlagMaskShift;
+        CGEventSetFlags(eventVkeyDown, _privateFlag);
+        CGEventSetFlags(eventVkeyUp, _privateFlag);
+        
+        CGEventTapPostEvent(_proxy, eventVkeyDown);
+        CGEventTapPostEvent(_proxy, eventVkeyUp);
         
         if (IS_DOUBLE_CODE(vCodeTable)) { //VNI or Unicode Compound
             if (_syncKey.back() > 1) {
-                if (!(vCodeTable == 3 && containUnicodeCompoundApp(_cachedFrontApp))) {
-                    CGEventTapPostEvent(_proxy, eventShiftLeftDown);
-                    CGEventTapPostEvent(_proxy, eventShiftLeftUp);
+                if (!(vCodeTable == 3 && containUnicodeCompoundApp(FRONT_APP))) {
+                    CGEventTapPostEvent(_proxy, eventVkeyDown);
+                    CGEventTapPostEvent(_proxy, eventVkeyUp);
                 }
             }
             _syncKey.pop_back();
         }
+        CFRelease(eventVkeyDown);
+        CFRelease(eventVkeyUp);
     }
     
     void SendCutKey() {
@@ -552,7 +543,7 @@ extern "C" {
     
     void handleMacro() {
         //fix autocomplete
-        if (shouldUseRecommendWorkaround()) {
+        if (shouldUseRecommendWorkaround(FRONT_APP)) {
             SendEmptyCharacter();
             pData->backspaceCount++;
         }
@@ -677,14 +668,6 @@ extern "C" {
         
         _proxy = proxy;
         
-        // Cache frontmost app once per callback
-        _cachedFrontApp = [[NSWorkspace sharedWorkspace] frontmostApplication].bundleIdentifier;
-        if (_cachedFrontApp == nil) {
-            _cachedFrontApp = [[NSWorkspace sharedWorkspace] frontmostApplication].localizedName;
-            if (_cachedFrontApp == nil) _cachedFrontApp = @"UnknownApp";
-        }
-        _spotlightChecked = NO; // will be lazily computed only if needed
-        
         //If is in english mode
         if (vLanguage == 0) {
             if (vUseMacro && vUseMacroInEnglishMode && type == kCGEventKeyDown) {
@@ -740,7 +723,7 @@ extern "C" {
                         _syncKey.clear();
                     } else if (pData->extCode == 2) { //delete key
                         if (_syncKey.size() > 0) {
-                            if (_syncKey.back() > 1 && (vCodeTable == 2 || !containUnicodeCompoundApp(_cachedFrontApp))) {
+                            if (_syncKey.back() > 1 && (vCodeTable == 2 || !containUnicodeCompoundApp(FRONT_APP))) {
                                 //send one more backspace
                                 CGEventTapPostEvent(_proxy, eventBackSpaceDown);
                                 CGEventTapPostEvent(_proxy, eventBackSpaceUp);
@@ -756,8 +739,8 @@ extern "C" {
             } else if (pData->code == vWillProcess || pData->code == vRestore || pData->code == vRestoreAndStartNewSession) { //handle result signal
                 
                 //fix autocomplete
-                if (shouldUseRecommendWorkaround() && pData->extCode != 4) {
-                    if (vFixChromiumBrowser && [_unicodeCompoundApp containsObject:_cachedFrontApp]) {
+                if (shouldUseRecommendWorkaround(FRONT_APP) && pData->extCode != 4) {
+                    if (vFixChromiumBrowser && [_unicodeCompoundApp containsObject:FRONT_APP]) {
                         if (pData->backspaceCount > 0) {
                             SendShiftAndLeftArrow();
                             if (pData->backspaceCount == 1)
@@ -770,7 +753,7 @@ extern "C" {
                     }
                 }
 
-                if (shouldUseSelectionReplacement() && pData->backspaceCount > 0) {
+                if (shouldUseSelectionReplacement(FRONT_APP) && pData->backspaceCount > 0) {
                     for (_i = 0; _i < pData->backspaceCount; _i++) {
                         SendShiftAndLeftArrow();
                     }
